@@ -13,6 +13,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersonSWAPI implements Person{
 
+    private final Integer UNKNOWN_MASS = -1;
     private long id;
     private String name;
     private String birth_year;
@@ -151,6 +152,7 @@ public class PersonSWAPI implements Person{
      */
     public void setGender(String gender) {
         this.gender = gender;
+        // Convert gender definition in order to conform to Gender enumeration
         switch (gender){
             case "male":
                 genderEnum = Gender.MALE;
@@ -185,7 +187,9 @@ public class PersonSWAPI implements Person{
        if(mass != null && mass.matches("[0-9.]+")){
            this.mass = Integer.parseInt(mass);
        }
-       else this.mass = -1;
+       else
+           // When mass is NaN (for example "unknown" then define mass as -1
+           this.mass = UNKNOWN_MASS;
     }
 
     /**

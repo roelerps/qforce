@@ -39,6 +39,7 @@ public class PersonServiceSWAPI implements PersonService{
      */
     @Override
     public List<Person> search(String query) {
+        // Request the data from SWAPI via HttpRequest
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
@@ -54,6 +55,7 @@ public class PersonServiceSWAPI implements PersonService{
             throw new RuntimeException(e);
         }
 
+        // Try to map the data from SWAPI to the object PersonSWAPI
         List<PersonSWAPI> personSWAPIList = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -62,6 +64,7 @@ public class PersonServiceSWAPI implements PersonService{
             throw new RuntimeException(e);
         }
 
+        // Convert the SWAPI data to QForce data
         List<Person> personQForceList= new ArrayList<>();
         for (PersonSWAPI personSWAPI : personSWAPIList){
             if (personSWAPI.getName() != null){
@@ -71,12 +74,9 @@ public class PersonServiceSWAPI implements PersonService{
                     movies.add(convert(getMovie(movieURL)));
                 }
                 personQForce.setMovies(movies);
-
                 personQForceList.add(personQForce);
             }
         }
-
-
         return personQForceList;
     }
 
@@ -88,6 +88,7 @@ public class PersonServiceSWAPI implements PersonService{
      */
     @Override
     public Optional<Person> get(long id) {
+        // Request the data from SWAPI via HttpRequest
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
@@ -103,7 +104,7 @@ public class PersonServiceSWAPI implements PersonService{
             throw new RuntimeException(e);
         }
 
-
+        // Try to map the data from SWAPI to the object PersonSWAPI
         PersonSWAPI personSWAPI = null;
         PersonQForce personQForce = null;
         ObjectMapper mapper = new ObjectMapper();
@@ -113,13 +114,13 @@ public class PersonServiceSWAPI implements PersonService{
             throw new RuntimeException(e);
         }
 
+        // Convert the SWAPI data to QForce data
         if (personSWAPI.getName() != null){
             personQForce = convert(personSWAPI);
             List<Movie> movies = new ArrayList<>();
             for (String movieURL:personSWAPI.getFilms()) {
                 movies.add(convert(getMovie(movieURL)));
             }
-            //personQForce.setId(id);
             personQForce.setMovies(movies);
         }
         else{
@@ -137,11 +138,13 @@ public class PersonServiceSWAPI implements PersonService{
     private PersonQForce convert(PersonSWAPI personSwapi){
         PersonQForce personQforce = new PersonQForce();
 
+        // Get id from url and set id
         String id = personSwapi.getUrl().substring(personSwapi.getUrl().indexOf("people")+7,personSwapi.getUrl().length()-1);
         if(id != null && id.matches("[0-9.]+")){
             personQforce.setId(Integer.parseInt(id));
         }
         else personQforce.setId(-1);
+        // Convert name/birthyear/gender/height/weight of person
         personQforce.setName(personSwapi.getName());
         personQforce.setBirthYear(personSwapi.getBirthYear());
         personQforce.setGender(personSwapi.getGender());
@@ -158,6 +161,7 @@ public class PersonServiceSWAPI implements PersonService{
      * @return the movie
      */
     private MovieSWAPI getMovie(String movieURL){
+        // Request the data from SWAPI via HttpRequest
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
@@ -173,10 +177,8 @@ public class PersonServiceSWAPI implements PersonService{
             throw new RuntimeException(e);
         }
 
-
+        // Try to map the data from SWAPI to the object MovieSWAPI
         MovieSWAPI movie = null;
-        //ObjectMapper mapper = new ObjectMapper();
-
         ObjectMapper mapper = JsonMapper.builder()
                 .addModule(new JavaTimeModule())
                 .build();
@@ -198,6 +200,7 @@ public class PersonServiceSWAPI implements PersonService{
     private MovieQForce convert(MovieSWAPI movieSWAPI){
         MovieQForce movieQforce = new MovieQForce();
 
+        // Convert title/episode/director/releasedate of movie
         movieQforce.setTitle(movieSWAPI.getTitle());
         movieQforce.setEpisode(movieSWAPI.getEpisode());
         movieQforce.setDirector(movieSWAPI.getDirector());
