@@ -1,11 +1,15 @@
 package nl.qnh.qforce.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
 
+/**
+ * The domain class representing a Star Wars movie following the SWAPI definitions.
+ *
+ * @author roelerps
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MovieSWAPI implements Movie{
 
@@ -13,7 +17,6 @@ public class MovieSWAPI implements Movie{
     private String title;
     private Integer episode_id;
     private String director;
-    //@JsonFormat(pattern = "yyyy/mm/dd")
     private LocalDate release_date;
 
     @JsonCreator
@@ -61,10 +64,20 @@ public class MovieSWAPI implements Movie{
         return release_date;
     }
 
+    /**
+     * Set the episode number of the movie.
+     *
+     * @param episodeId the episode number of the movie
+     */
     public void setEpisode_id(Integer episodeId) {
         this.episode_id = episodeId;
     }
 
+    /**
+     * Set the release date of the movie.
+     *
+     * @param releaseDate the release date of the movie
+     */
     public void setRelease_date(LocalDate releaseDate) {
         this.release_date = releaseDate;
     }

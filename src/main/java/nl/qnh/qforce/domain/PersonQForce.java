@@ -2,11 +2,15 @@ package nl.qnh.qforce.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import java.util.List;
 
+/**
+ * The domain class representing a Star Wars person following the QForce definitions.
+ *
+ * @author roelerps
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PersonQForce implements Person{
@@ -91,30 +95,65 @@ public class PersonQForce implements Person{
         return movies;
     }
 
+    /**
+     * Set the id of the person.
+     *
+     * @param id the id of the person
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Set the name of the person.
+     *
+     * @param name the name of the person
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Set the birth year of the person.
+     *
+     * @param birthYear the birth year of the person
+     */
     public void setBirthYear(String birthYear) {
         this.birthYear = birthYear;
     }
 
+    /**
+     * Set the gender of the person.
+     *
+     * @param gender the gender of the person
+     */
     public void setGender(Gender gender) {
         this.gender = gender;
     }
 
+    /**
+     * Set the height of the person.
+     *
+     * @param height the heigth of the person
+     */
     public void setHeight(Integer height) {
         this.height = height;
     }
 
+    /**
+     * Set the weight of the person.
+     *
+     * @param weight the weight of the person
+     */
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
+    /**
+     * Set the movies the person acted in.
+     *
+     * @param movies the movies where the person acted in
+     */
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
     }

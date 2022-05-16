@@ -10,6 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * The person controller acts as a REST controller in order to search persons by query or get person by id
+ *
+ * @author roelerps
+ */
 @RestController
 @RequestMapping("/persons")
 public class PersonController {
@@ -20,11 +25,23 @@ public class PersonController {
         this.personService = personService;
     }
 
+    /**
+     * Searches for persons.
+     *
+     * @param query the query string
+     * @return the list of persons
+     */
     @GetMapping
     public List<Person> searchQuery(@RequestParam("q") String query){
         return personService.search(query);
     }
 
+    /**
+     * Returns the person with the provided id.
+     *
+     * @param id the id of the person
+     * @return the person
+     */
     @GetMapping("/{id}")
     public Optional<Person> getPersonById(@PathVariable long id){
         if (personService.get(id).isEmpty()){

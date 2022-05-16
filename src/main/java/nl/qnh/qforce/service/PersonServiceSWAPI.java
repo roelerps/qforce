@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The person service to search and retrieve persons from the SWAPI
+ *
+ * @author roelerps
+ */
 @Service
 public class PersonServiceSWAPI implements PersonService{
 
@@ -49,10 +54,6 @@ public class PersonServiceSWAPI implements PersonService{
             throw new RuntimeException(e);
         }
 
-        System.out.println(response.body());
-        //System.out.println(response.body().indexOf("results"));
-        System.out.println(response.body().substring(response.body().indexOf("results") + 9, response.body().length() -1 ));
-
         List<PersonSWAPI> personSWAPIList = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -61,10 +62,7 @@ public class PersonServiceSWAPI implements PersonService{
             throw new RuntimeException(e);
         }
 
-        //System.out.println(personSWAPIList);
-
         List<Person> personQForceList= new ArrayList<>();
-
         for (PersonSWAPI personSWAPI : personSWAPIList){
             if (personSWAPI.getName() != null){
                 PersonQForce personQForce = convert(personSWAPI);
@@ -130,6 +128,12 @@ public class PersonServiceSWAPI implements PersonService{
         return Optional.of(personQForce);
     }
 
+    /**
+     * Converts the person from SWAPI to QForce format.
+     *
+     * @param personSwapi the person in PersonSWAPI format
+     * @return the person in PersonQForce format
+     */
     private PersonQForce convert(PersonSWAPI personSwapi){
         PersonQForce personQforce = new PersonQForce();
 
@@ -147,6 +151,12 @@ public class PersonServiceSWAPI implements PersonService{
         return personQforce;
     }
 
+    /**
+     * Returns the movie.
+     *
+     * @param movieURL the url of the movie
+     * @return the movie
+     */
     private MovieSWAPI getMovie(String movieURL){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -178,6 +188,13 @@ public class PersonServiceSWAPI implements PersonService{
         return movie;
     }
 
+
+    /**
+     * Converts the movie from SWAPI to QForce format.
+     *
+     * @param movieSWAPI the movie in MovieSWAPI format
+     * @return the movie in MovieQForce format
+     */
     private MovieQForce convert(MovieSWAPI movieSWAPI){
         MovieQForce movieQforce = new MovieQForce();
 
