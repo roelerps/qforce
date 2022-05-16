@@ -16,6 +16,9 @@
 
 package nl.qnh.qforce.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * The gender.
  *
@@ -23,5 +26,14 @@ package nl.qnh.qforce.domain;
  */
 public enum Gender {
 
-    MALE, FEMALE, UNKNOWN, NOT_APPLICABLE
+    //@JsonProperty("male")
+    MALE,
+    //@JsonProperty("female")
+    FEMALE,
+    //@JsonProperty("unknown")
+    UNKNOWN,
+    //@JsonProperty("n/a")
+    NOT_APPLICABLE;
+
+
 }
